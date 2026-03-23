@@ -25,3 +25,11 @@ jobs:
 
     - run: docker build -t nagarajanroshen/java-k8s-demo:latest .
     - run: docker push nagarajanroshen/java-k8s-demo:latest
+    - name: Deploy to Kubernetes
+      uses: appleboy/ssh-action@v1
+      with:
+        host: 172.21.197.249
+        username: nagarajan
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          kubectl rollout restart deployment java-demo
